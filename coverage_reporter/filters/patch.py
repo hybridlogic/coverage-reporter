@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 
 from coverage_reporter.plugins import Plugin, Option
 
@@ -50,9 +51,9 @@ def _get_lines_from_patch(patch_file, patch_level):
         elif line.startswith('@@'):
             # @@ -old_lineno,old_end +new_lineno,new_end @@ <extra info>
             # place marker - we want to start counting lines at new_lineno
-            line = line[line.find('+')+1:]
-            line = line[:line.find(',')]
-            cur_line = int(line)
+            m = re.match(r'@@ -[0-9]+(?:,[0-9]+)? \+([0-9]+)(?:,[0-9]+)? @@', line)
+            if m:
+                cur_line = int(m.groups()[0])
         elif line.startswith('+'):
             # added line
             file_dict[new_file].append(cur_line)
