@@ -4,7 +4,7 @@ try:
 except ImportError:
     from distutils.core import setup
     
-Version = "0.01"
+Version = "0.01-hl0"
 
 setup(name = "coverage-reporter",
       version = Version,
